@@ -1,11 +1,11 @@
 <template>
     <div class="form-wrapper">        
-        <SingUpForm></SingUpForm>
+        <SignUpForm></SignUpForm>
     </div>
 </template>
 
 <script lang="ts" setup>
-    import SingUpForm from '@/components/SingUpForm.vue'
+    import SignUpForm from '@/components/SignUpForm.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -25,7 +25,7 @@
     </form>
 </template>
 
-<script lang="ts" setin>
+<script lang="ts" setup>
 
 </script>
 

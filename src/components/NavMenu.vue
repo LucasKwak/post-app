@@ -23,12 +23,12 @@
             font-weight: bold;
             color: $textColor;
             text-decoration: none;
-            border: 2px solid $contrastColor;
+            border: 2px solid $contrastColorLight;
             border-radius: 15px;
-            padding: 5px;
+            padding: 8px;
 
             &.router-link-exact-active {
-                color: $contrastColor;
+                color: $contrastColorLight;
             }
         }
     }

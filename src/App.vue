@@ -1,11 +1,16 @@
 <template>
-    <nav>
-        <router-link :to="{name: 'home'}">Home</router-link> |
-        <router-link :to="{name: 'sign-up'}">Sing up</router-link> |
-        <router-link :to="{name: 'sign-in'}">Sign In</router-link> 
-    </nav>
-    <router-view/>
+    <header>
+        <h1 class="app-title">THE POST APP</h1>
+        <NavMenu></NavMenu>
+    </header>
+    <main>
+        <router-view/>
+    </main>
 </template>
+
+<script setup>
+    import NavMenu from '@/components/NavMenu.vue';
+</script>
 
 <style lang="scss">
     #app {
@@ -16,16 +21,15 @@
         color: #2c3e50;
     }
 
-    nav {
-        padding: 30px;
+    body {
+        margin: 0;
 
-        a {
-            font-weight: bold;
-            color: #2c3e50;
-
-            &.router-link-exact-active {
-                color: #42b983;
-            }
+        .app-title {
+            margin: 0;
+            position: absolute;
+            font-style: italic;
+            left: 20px;
+            font-size: 60px;
         }
     }
 </style>

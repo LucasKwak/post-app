@@ -8,27 +8,38 @@
         <div class="inputs-wrapper">
             <div class="input-wrapper">
                 <label class="sing-up-form__label" for="inputName">Name</label>
-                <input class="sing-up-form__input" type="text" id="inputName" placeholder="Lucas">
+                <input class="sing-up-form__input" type="text" id="inputName" placeholder="Lucas" v-model="name">
             </div>
             <div class="input-wrapper">
                 <label class="sing-up-form__label" for="inputLastName">Last name</label>
-                <input class="sing-up-form__input" type="text" id="inputLastName" placeholder="Kwak">
+                <input class="sing-up-form__input" type="text" id="inputLastName" placeholder="Kwak" v-model="lastName">
             </div>
             <div class="input-wrapper">
                 <label class="sing-up-form__label" for="inputEmail">Email</label>
-                <input class="sing-up-form__input" type="text" id="inputEmail" placeholder="email@gmail.com">
+                <input class="sing-up-form__input" type="text" id="inputEmail" placeholder="email@gmail.com" v-model="email">
             </div>
             <div class="input-wrapper">
                 <label class="sing-up-form__label" for="inputPassword">Password</label>
-                <input class="sing-up-form__input" type="password" id="inputPassword">
+                <input class="sing-up-form__input" type="password" id="inputPassword" v-model="password">
             </div>
         </div>
-        <button class="form__button" type="submit">Create Account</button>
+        <button class="form__button" type="submit" @click.prevent="createAccount">Create Account</button>
     </form>
 </template>
 
 <script lang="ts" setup>
+    import { Ref, ref } from "vue";
+    import { useAuthStore } from '../store/auth';
+    const store = useAuthStore();
 
+    let name:Ref<string> = ref('');
+    let lastName:Ref<string> = ref('');
+    let email:Ref<string> = ref('');
+    let password:Ref<string> = ref('');
+
+    function createAccount() {
+        store.register(name.value, lastName.value, email.value, password.value);
+    }
 </script>
 
 <style lang="scss" scoped>

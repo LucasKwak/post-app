@@ -1,9 +1,9 @@
 <template>
-    <h1>Create post view</h1>
+    <CreatePostForm></CreatePostForm>
 </template>
 
 <script lang="ts" setup>
-
+    import CreatePostForm from '@/components/CreatePostForm.vue'
 </script>
 
 <style scoped>

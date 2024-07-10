@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, collection } from "firebase/firestore";
 import IUser from '@/interfaces/IUser';
 
 export const useAuthStore = defineStore(
@@ -70,8 +70,8 @@ export const useAuthStore = defineStore(
                 let user:IUser = {};
 
                 if(currentUser != null) {
-                    // Recuperamos de la Promise, el docSnapshot
                     try {
+                        // Recuperamos de la Promise, el docSnapshot
                         const docSnapshot = await getDoc(doc(this.db, "users", currentUser.uid));
                         user = {
                             uid: currentUser.uid,
@@ -86,6 +86,30 @@ export const useAuthStore = defineStore(
                     }
                 }else{
                     return user;
+                }
+            },
+            async createPost(title:string, category:string, content:string):Promise<boolean> {
+                // Este metodo no se puede ejecutar si el usuario no esta autenticado, por tanto currentUser nunca va a ser null
+                const currentUser = this.auth.currentUser;
+
+                if(currentUser != null){
+                    try {
+                        await setDoc(
+                            doc(collection(this.db, "posts")),
+                            {
+                                title: title,
+                                category: category,
+                                content: content,
+                                userUid: currentUser.uid
+                            }
+                        );
+                        return true;
+                    } catch (error) {
+                        alert("Desde el createPost " + error);
+                        return false;
+                    }
+                }else{
+                    return false;
                 }
             }
         }

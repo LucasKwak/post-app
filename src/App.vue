@@ -19,10 +19,10 @@
     onAuthStateChanged(store.auth, 
         (user) => {
             if(user) {
-                alert("Esta autenticado: app.vue");
+                //alert("Esta autenticado: app.vue");
                 store.changeAuthState(true);
             }else{
-                alert("No esta autenticado: app.vue");
+                //alert("No esta autenticado: app.vue");
                 store.changeAuthState(false);
             }
         }

@@ -8,11 +8,11 @@
         <div class="inputs-wrapper">
             <div class="input-wrapper">
                 <label class="sing-in-form__label" for="inputEmail">Email</label>
-                <input class="sing-in-form__input" type="text" id="inputEmail" placeholder="email@gmail.com">
+                <input class="sing-in-form__input" type="text" id="inputEmail" placeholder="email@gmail.com" v-model="email">
             </div>
             <div class="input-wrapper">
                 <label class="sing-in-form__label" for="inputPassword">Password</label>
-                <input class="sing-in-form__input" type="password" id="inputPassword">
+                <input class="sing-in-form__input" type="password" id="inputPassword" v-model="password">
             </div>
         </div>
 
@@ -20,13 +20,26 @@
             <p>
             Don't have an account? <router-link :to="{name: 'sign-up'}">Sign up</router-link>
             </p>
-            <button class="form__button" type="submit">Sign in</button>
+            <button class="form__button" type="submit" @click.prevent="signIn">Sign in</button>
         </div>
     </form>
 </template>
 
 <script lang="ts" setup>
+    import { Ref, ref } from "vue";
+    import { useAuthStore } from '../store/auth';
+    import router from '@/router';
 
+    const store = useAuthStore();
+
+    let email:Ref<string> = ref('');
+    let password:Ref<string> = ref('');
+
+    function signIn() {
+        store.login(email.value, password.value);
+        // Para cambiar de vista
+        router.push({name: "home"});
+    }
 </script>
 
 <style lang="scss" scoped>

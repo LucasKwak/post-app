@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-
 
 export const useAuthStore = defineStore(
     "auth",
@@ -9,7 +8,9 @@ export const useAuthStore = defineStore(
         state: () => {
             const auth = getAuth();
             const db = getFirestore();
-            return { auth, db, token: null }
+            const isAuthenticated = false;
+
+            return { auth, db, isAuthenticated }
         },
         getters: {
 
@@ -28,15 +29,38 @@ export const useAuthStore = defineStore(
                                 }
                             )
                         }
-                    ).then(
+                    )
+                    .then(
                         () => {
                             alert("Registrado correctamente");
                         }
-                    ).catch(
+                    )
+                    .catch(
                         (error) => {
                             alert(error.message);
                         }
                     )
+            },
+            login(email:string, password:string) {
+                signInWithEmailAndPassword(this.auth, email, password)
+                    .then(
+                        // POR AHORA NO EJECUTAMOS NADA
+                        /*
+                        (userCredential) => {
+                            //const user = userCredential.user;
+                            // COMO ES UNA Promise<string> HAY QUE VOLVER A HACER OTRO then
+                            //return user.getIdToken();
+                            alert("Usuario autenticado 1")
+                        }*/
+                    )
+                    .catch(
+                        (error) => {
+                            alert("Error: " + error.message);
+                        }
+                    )
+            },
+            changeAuthState(value:boolean){
+                this.isAuthenticated = value;
             }
         }
     }

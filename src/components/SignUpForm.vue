@@ -30,6 +30,8 @@
 <script lang="ts" setup>
     import { Ref, ref } from "vue";
     import { useAuthStore } from '../store/auth';
+    import router from '@/router';
+
     const store = useAuthStore();
 
     let name:Ref<string> = ref('');
@@ -39,6 +41,8 @@
 
     function createAccount() {
         store.register(name.value, lastName.value, email.value, password.value);
+        // Para cambiar de vista
+        router.push({name: "home"});
     }
 </script>
 

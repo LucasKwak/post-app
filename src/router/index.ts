@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignUpView from '@/views/SignUpView.vue';
 import SignInView from '@/views/SignInView.vue';
-
+import LogOutView from '@/views/LogOutView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/sign-in',
         name: 'sign-in',
         component: SignInView
+    },
+    {
+        path: '/log-out',
+        name: 'log-out',
+        component: LogOutView
     }
 ];
 

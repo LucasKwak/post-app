@@ -32,9 +32,10 @@ export const useAuthStore = defineStore(
                         }
                     )
                     .then(
+                        /*
                         () => {
                             alert("Registrado correctamente");
-                        }
+                        }*/
                     )
                     .catch(
                         (error) => {

@@ -15,6 +15,7 @@
 
     const store = useAuthStore();
 
+    // Establecemos un observer al auth del store comun a toda la app
     onAuthStateChanged(store.auth, 
         (user) => {
             if(user) {

@@ -4,12 +4,45 @@ import SignUpView from '@/views/SignUpView.vue';
 import SignInView from '@/views/SignInView.vue';
 import LogOutView from '@/views/LogOutView.vue';
 import AccountView from '@/views/AccountView.vue';
+import MyPostsView from '@/views/MyPostsView.vue';
+import AllPostsView from '@/views/AllPostsView.vue';
+import CreatePostView from '@/views/CreatePostView.vue';
+import DefaultView from '@/views/DefaultView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
+        redirect: '/home'
+    },
+    {
+        path: '/home',
         name: 'home',
-        component: HomeView
+        component: HomeView,
+        children: [
+            {
+                path: "",
+                component: DefaultView
+            },
+            {
+                path: "/",
+                redirect: 'allPosts'
+            }, 
+            {
+                path: "allPosts",
+                name: "allPosts",
+                component: AllPostsView
+            }, 
+            {
+                path: "myPosts",
+                name: "myPosts",
+                component: MyPostsView
+            },
+            {
+                path: "createPost",
+                name: "createPost",
+                component: CreatePostView
+            }
+        ]
     },
     {
         path: '/sign-up',

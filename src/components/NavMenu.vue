@@ -1,6 +1,6 @@
 <template>
     <nav class="nav-menu">
-        <router-link :to="{name: 'home'}">Home</router-link>
+        <router-link to="/home">Home</router-link>
         <router-link v-if="isAuthenticated == true" :to="{name: 'account'}">Account</router-link>
         <router-link v-if="isAuthenticated == true" :to="{name: 'log-out'}">Log out</router-link>
         <router-link v-if="isAuthenticated == false" :to="{name: 'sign-up'}">Sing up</router-link>
@@ -33,7 +33,7 @@
             border-radius: 15px;
             padding: 8px;
 
-            &.router-link-exact-active {
+            &.router-link-active {
                 color: $contrastColorLight;
             }
         }

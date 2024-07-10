@@ -1,11 +1,22 @@
 <template>
-    <h1>Home View</h1>
+    <div class="home-wrapper">
+        <section>
+            <NavLateralMenu></NavLateralMenu>
+        </section>
+        <section>
+            <router-view/>
+        </section>
+    </div>
 </template>
 
 <script lang="ts" setup>
-
+    import NavLateralMenu from '@/components/NavLateralMenu.vue';
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .home-wrapper {
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+    }
 </style>

@@ -1,9 +1,9 @@
 <template>
     <div class="home-wrapper">
-        <section>
+        <section class="home-lateral-menu">
             <NavLateralMenu></NavLateralMenu>
         </section>
-        <section>
+        <section class="home-main-wrapper">
             <router-view/>
         </section>
     </div>
@@ -15,8 +15,13 @@
 
 <style lang="scss" scoped>
     .home-wrapper {
+        height: 100%;
         display: flex;
         flex-direction: row;
-        padding: 20px;
+        gap: 20px;
+
+        .home-main-wrapper {
+            flex-grow: 1;
+        }
     }
 </style>

@@ -30,22 +30,37 @@
 </script>
 
 <style lang="scss">
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
+    html {
+        height: 100%;
     }
 
     body {
         margin: 0;
+        height: 100%;
 
-        .app-title {
-            margin: 0;
-            position: absolute;
-            font-style: italic;
-            left: 20px;
-            font-size: 60px;
+        #app {
+            font-family: Avenir, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #2c3e50;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            header {
+                .app-title {
+                    margin: 0;
+                    position: absolute;
+                    font-style: italic;
+                    left: 20px;
+                    font-size: 60px;
+                }
+            }
+
+            main {
+                flex-grow: 1;
+                padding: 20px;
+            }
         }
     }
 </style>

@@ -28,6 +28,10 @@
 
 <style lang="scss" scoped>
 
+    h2 {
+        font-size: 30px; 
+    }
+
     .info-wrapper {
         display: flex;
         flex-direction: column;

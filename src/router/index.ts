@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import SignUpView from '@/views/SignUpView.vue';
 import SignInView from '@/views/SignInView.vue';
 import LogOutView from '@/views/LogOutView.vue';
+import AccountView from '@/views/AccountView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -24,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/log-out',
         name: 'log-out',
         component: LogOutView
+    },
+    {
+        path: '/account',
+        name: 'account',
+        component: AccountView
     }
 ];
 

@@ -1,9 +1,9 @@
 <template>
-    <h1>My posts view</h1>
+    <MyPostsDisplay></MyPostsDisplay>
 </template>
 
 <script lang="ts" setup>
-
+    import MyPostsDisplay from '@/components/MyPostsDisplay.vue'
 </script>
 
 <style scoped>

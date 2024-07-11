@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, QuerySnapshot } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, QuerySnapshot, query, where } from "firebase/firestore";
 import IUser from '@/interfaces/IUser';
 
 export const useAuthStore = defineStore(
@@ -120,6 +120,11 @@ export const useAuthStore = defineStore(
             },
             async fetchAllPosts():Promise<QuerySnapshot> {
                 const querySnapshot = await getDocs(collection(this.db, "posts"));
+                return querySnapshot;
+            },
+            async fetchMyPosts():Promise<QuerySnapshot> {
+                const currentUser = this.auth.currentUser;
+                const querySnapshot = await getDocs(query(collection(this.db, "posts"), where("userUid", "==", currentUser?.uid)));
                 return querySnapshot;
             }
         }

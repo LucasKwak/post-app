@@ -15,6 +15,10 @@
                 <input class="sing-up-form__input" type="text" id="inputLastName" placeholder="Kwak" v-model="lastName">
             </div>
             <div class="input-wrapper">
+                <label class="sing-up-form__label" for="inputUsername">Username</label>
+                <input class="sing-up-form__input" type="text" id="inputUsername" placeholder="lucasKwakkk" v-model="username">
+            </div>
+            <div class="input-wrapper">
                 <label class="sing-up-form__label" for="inputEmail">Email</label>
                 <input class="sing-up-form__input" type="text" id="inputEmail" placeholder="email@gmail.com" v-model="email">
             </div>
@@ -38,9 +42,10 @@
     let lastName:Ref<string> = ref('');
     let email:Ref<string> = ref('');
     let password:Ref<string> = ref('');
+    let username:Ref<string> = ref('');
 
     function createAccount() {
-        store.register(name.value, lastName.value, email.value, password.value);
+        store.register(name.value, lastName.value, email.value, password.value, username.value);
         // Para cambiar de vista
         router.push({name: "home"});
     }
@@ -55,7 +60,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 40px;
+        gap: 25px;
 
         .description-wrapper {
             width: 100%;

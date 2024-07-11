@@ -1,7 +1,7 @@
 <template>
     <div class="posts-wrapper">
         <div v-if="loading" class="spinner"></div>
-        <PostDetails v-for="(post, index) in postArray" :key="index" :title="post.title" :category="post.category" :content="post.content"></PostDetails>
+        <PostDetails v-for="(post, index) in postArray" :key="index" :title="post.title" :category="post.category" :content="post.content" :author="post.author"></PostDetails>
     </div>
 </template>
 
@@ -23,7 +23,8 @@
                         let post = {
                             title: doc.data().title,
                             category: doc.data().category,
-                            content: doc.data().content
+                            content: doc.data().content,
+                            author: doc.data().username
                         };
                         postArray.value.push(post);
                     }

@@ -4,6 +4,7 @@
     <div v-else class="info-wrapper">
         <p><span class="info-title">Name:</span> {{ user.name }}</p>
         <p><span class="info-title">Last name:</span> {{ user.lastName }}</p>
+        <p><span class="info-title">Username:</span> {{ user.username }}</p>
         <p><span class="info-title">Email:</span> {{ user.email }}</p>
     </div>
 </template>

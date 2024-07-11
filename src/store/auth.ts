@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs, QuerySnapshot, query, where } from "firebase/firestore";
 import IUser from '@/interfaces/IUser';
 
@@ -17,7 +17,7 @@ export const useAuthStore = defineStore(
 
         },
         actions: {
-            register(name:string, lastName:string, email:string, password:string) {
+            register(name:string, lastName:string, email:string, password:string, username:string) {
                 // Llamada para crear un usuario en firebase
                 createUserWithEmailAndPassword(this.auth, email, password)
                     .then(
@@ -26,7 +26,8 @@ export const useAuthStore = defineStore(
                                 doc(this.db, "users", userCredential.user.uid),
                                 {
                                     name: name,
-                                    lastName: lastName
+                                    lastName: lastName,
+                                    username: username
                                 }
                             )
                         }
@@ -78,7 +79,8 @@ export const useAuthStore = defineStore(
                                 uid: currentUser.uid,
                                 email: currentUser.email!,
                                 name: docSnapshot.data().name,
-                                lastName: docSnapshot.data().lastName
+                                lastName: docSnapshot.data().lastName,
+                                username: docSnapshot.data().username
                             }
                             return user;
                         }else{
@@ -100,16 +102,24 @@ export const useAuthStore = defineStore(
 
                 if(currentUser != null){
                     try {
-                        await setDoc(
-                            doc(collection(this.db, "posts")),
-                            {
-                                title: title,
-                                category: category,
-                                content: content,
-                                userUid: currentUser.uid
-                            }
-                        );
-                        return true;
+                        const docSnapshot = await getDoc(doc(this.db, "users", currentUser.uid));
+
+                        if(docSnapshot.exists()) {
+                            await setDoc(
+                                doc(collection(this.db, "posts")),
+                                {
+                                    title: title,
+                                    category: category,
+                                    content: content,
+                                    userUid: currentUser.uid,
+                                    username: docSnapshot.data().username
+                                }
+                            );
+                            return true;
+                        }else{
+                            alert("Desde el getAccountInfo: No existe ese usuario ");
+                            return false;
+                        }
                     } catch (error) {
                         alert("Desde el createPost " + error);
                         return false;

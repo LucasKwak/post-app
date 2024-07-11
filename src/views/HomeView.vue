@@ -20,6 +20,10 @@
         flex-direction: row;
         gap: 20px;
 
+        .home-lateral-menu {
+            flex-shrink: 0;
+        }
+
         .home-main-wrapper {
             flex-grow: 1;
         }

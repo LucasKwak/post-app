@@ -1,9 +1,9 @@
 <template>
-    <h1>All posts view</h1>
+    <AllPostsDisplay></AllPostsDisplay>
 </template>
 
 <script lang="ts" setup>
-
+    import AllPostsDisplay from '@/components/AllPostsDisplay.vue'
 </script>
 
 <style scoped>

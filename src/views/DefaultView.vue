@@ -1,9 +1,9 @@
 <template>
-    <h1>Default view</h1>
+    <DefaultMessage></DefaultMessage>
 </template>
 
 <script lang="ts" setup>
-
+    import DefaultMessage from '@/components/DefaultMessage.vue'
 </script>
 
 <style scoped>

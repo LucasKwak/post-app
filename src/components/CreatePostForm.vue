@@ -30,7 +30,7 @@
                 </div>
             </div>
             <button class="form__button" type="submit" @click.prevent="sharePost">Share post</button>
-    </form>
+        </form>
     </div>
 </template>
 

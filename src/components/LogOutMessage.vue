@@ -20,7 +20,7 @@
     function logOut() {
         signOut(store.auth);
         // Para cambiar de vista
-        router.push({name: "home"});
+        router.push("/home");
     }
 </script>
 

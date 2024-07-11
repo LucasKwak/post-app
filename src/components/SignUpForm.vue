@@ -47,7 +47,7 @@
     function createAccount() {
         store.register(name.value, lastName.value, email.value, password.value, username.value);
         // Para cambiar de vista
-        router.push({name: "home"});
+        router.push("/home");
     }
 </script>
 

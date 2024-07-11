@@ -38,7 +38,7 @@
     function signIn() {
         store.login(email.value, password.value);
         // Para cambiar de vista
-        router.push({name: "home"});
+        router.push("/home");
     }
 </script>
 

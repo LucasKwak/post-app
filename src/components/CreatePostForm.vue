@@ -46,6 +46,9 @@
 
     function sharePost() {
         store.createPost(title.value, category.value, content.value);
+        title.value = '';
+        category.value = '';
+        content.value = '';
     }
 </script>
 

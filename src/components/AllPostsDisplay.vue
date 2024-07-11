@@ -1,6 +1,7 @@
 <template>
     <div class="posts-wrapper">
         <div v-if="loading" class="spinner"></div>
+        <div v-if="postArray.length == 0">There are no posts yet!</div>
         <PostDetails v-for="(post, index) in postArray" :key="index" :title="post.title" :category="post.category" :content="post.content" :author="post.author"></PostDetails>
     </div>
 </template>

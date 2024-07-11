@@ -14,14 +14,15 @@
                 <div class="input-wrapper">
                     <label class="create-post-form__label" for="inputCategory">Category</label>
                     <select class="create-post-form__input" id="inputCategory" v-model="category">
-                        <option value="Deportes">Deportes</option>
-                        <option value="Peliculas">Películas</option>
-                        <option value="Libros">Libros</option>
-                        <option value="Ciencia">Ciencia</option>
-                        <option value="Tecnologia">Tecnología</option>
-                        <option value="Viajes">Viajes</option>
-                        <option value="SalBien">Salud y bienestar</option>
-                        <option value="Ciencia">Ciencia</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Cinema">Cinema</option>
+                        <option value="Books">Books</option>
+                        <option value="Science">Science</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Traveling">Traveling</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Fitness">Fitness</option>
                     </select>
                 </div>
                 <div class="input-wrapper">

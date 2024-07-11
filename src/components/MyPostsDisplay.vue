@@ -1,7 +1,7 @@
 <template>
     <div class="posts-wrapper">
         <div v-if="loading" class="spinner"></div>
-        <div v-if="postArray.length == 0">You haven't shared any post yet!</div>
+        <div v-if="noPosts">You haven't shared any post yet!</div>
         <PostDetails v-for="(post, index) in postArray" :key="index" :title="post.title" :category="post.category" :content="post.content" :author="post.author"></PostDetails>
     </div>
 </template>
@@ -14,6 +14,7 @@
 
     const store = useAuthStore();
     let postArray:Ref<Array<IPost>> = ref([]);
+    let noPosts:Ref<boolean> = ref(false); 
     let loading:Ref<boolean> = ref(true);
 
     onMounted(
@@ -31,6 +32,9 @@
                     }
                 );
                 loading.value = false;
+                if(postArray.value.length == 0){
+                    noPosts.value = true;
+                }
         }
     )
 </script>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, collection } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, QuerySnapshot } from "firebase/firestore";
 import IUser from '@/interfaces/IUser';
 
 export const useAuthStore = defineStore(
@@ -73,18 +73,24 @@ export const useAuthStore = defineStore(
                     try {
                         // Recuperamos de la Promise, el docSnapshot
                         const docSnapshot = await getDoc(doc(this.db, "users", currentUser.uid));
-                        user = {
-                            uid: currentUser.uid,
-                            email: currentUser.email!,
-                            name: docSnapshot.data()?.name,
-                            lastName: docSnapshot.data()?.lastName
+                        if(docSnapshot.exists()) {
+                            user = {
+                                uid: currentUser.uid,
+                                email: currentUser.email!,
+                                name: docSnapshot.data().name,
+                                lastName: docSnapshot.data().lastName
+                            }
+                            return user;
+                        }else{
+                            alert("Desde el getAccountInfo: No existe ese usuario ");
+                            return user;
                         }
-                        return user;
                     } catch (error) {
                         alert("Desde el getAccountInfo " + error);
                         return user;
                     }
                 }else{
+                    console.log("Desde el getAccountInfo: sin currentUser");
                     return user;
                 }
             },
@@ -111,6 +117,10 @@ export const useAuthStore = defineStore(
                 }else{
                     return false;
                 }
+            },
+            async fetchAllPosts():Promise<QuerySnapshot> {
+                const querySnapshot = await getDocs(collection(this.db, "posts"));
+                return querySnapshot;
             }
         }
     }

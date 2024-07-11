@@ -1,16 +1,23 @@
 <template>
     <div class="post-wrapper">
-        <h3>Titulo</h3>
-        <h4>Categoria</h4>
+        <h3>{{ props.title }}</h3>
+        <h4>{{ props.category }}</h4>
         <div class="p-wrapper">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam praesentium non corrupti quam. Obcaecati corporis distinctio perspiciatis? Ullam iusto doloremque quas repudiandae possimus aut nihil, quod vero exercitationem magni. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique, a! Dolorum, earum. Corporis neque delectus id facere omnis illum porro ipsum quis placeat. Fugiat, at aliquid porro saepe eos soluta. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, reiciendis minima itaque quaerat quasi, cumque tempore ipsa nesciunt quod distinctio porro rem suscipit doloribus quo omnis, autem qui sit est?</p>
-    
+            <p>{{ props.content }}</p>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-
+    import { defineProps } from 'vue';
+    
+    const props = defineProps(
+        {
+            title: {type: String, required: true},
+            category: {type: String, required: true},
+            content: {type: String, required: true}
+        }
+    )
 </script>
 
 <style lang="scss" scoped>

@@ -13,12 +13,13 @@
 <script lang="ts" setup>
     import { signOut } from 'firebase/auth';
     import { useAuthStore } from '@/store/auth';
+    import { auth } from '../firebase';
     import router from '@/router';
 
     const store = useAuthStore();
 
     function logOut() {
-        signOut(store.auth);
+        signOut(auth);
         // Para cambiar de vista
         router.push("/home");
     }

@@ -1,29 +1,41 @@
 import { defineStore } from "pinia";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, QuerySnapshot, query, where } from "firebase/firestore";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
+import { doc, setDoc, getDoc, collection, getDocs, QuerySnapshot, query, where } from "firebase/firestore";
 import IUser from '@/interfaces/IUser';
+import { auth, db } from '../firebase';
 
 export const useAuthStore = defineStore(
     "auth",
     {
-        state: () => {
-            const auth = getAuth();
-            const db = getFirestore();
-            const isAuthenticated = false;
-
-            return { auth, db, isAuthenticated }
-        },
+        state: () => ({
+            user:null as User | null,
+        }),
         getters: {
-
+            isAuthenticated: (state) => !!state.user
         },
         actions: {
+            async fetchUser() {
+                return new Promise<void>((resolve) => {
+                    onAuthStateChanged(auth, (user) => {
+                        this.user = user;
+                        if(this.user == null) {
+                            // Actualizamos el local storage (por si el usuario refresca la pagina)
+                            localStorage.setItem("isAuthenticated", "false");
+                        }else{
+                            // Actualizamos el local storage (por si el usuario refresca la pagina)
+                            localStorage.setItem("isAuthenticated", "true");
+                        }
+                        resolve();
+                    });
+                });
+            },
             register(name:string, lastName:string, email:string, password:string, username:string) {
                 // Llamada para crear un usuario en firebase
-                createUserWithEmailAndPassword(this.auth, email, password)
+                createUserWithEmailAndPassword(auth, email, password)
                     .then(
                         (userCredential) => {
                             return setDoc(
-                                doc(this.db, "users", userCredential.user.uid),
+                                doc(db, "users", userCredential.user.uid),
                                 {
                                     name: name,
                                     lastName: lastName,
@@ -33,10 +45,7 @@ export const useAuthStore = defineStore(
                         }
                     )
                     .then(
-                        /*
-                        () => {
-                            alert("Registrado correctamente");
-                        }*/
+                        //TODO: Un modal que indique el usuario se registro correctamente 
                     )
                     .catch(
                         (error) => {
@@ -45,16 +54,9 @@ export const useAuthStore = defineStore(
                     )
             },
             login(email:string, password:string) {
-                signInWithEmailAndPassword(this.auth, email, password)
+                signInWithEmailAndPassword(auth, email, password)
                     .then(
-                        // POR AHORA NO EJECUTAMOS NADA
-                        /*
-                        (userCredential) => {
-                            //const user = userCredential.user;
-                            // COMO ES UNA Promise<string> HAY QUE VOLVER A HACER OTRO then
-                            //return user.getIdToken();
-                            alert("Usuario autenticado 1")
-                        }*/
+                        //TODO: Un modal que indique el usuario se autentico correctamente 
                     )
                     .catch(
                         (error) => {
@@ -62,33 +64,31 @@ export const useAuthStore = defineStore(
                         }
                     )
             },
-            changeAuthState(value:boolean){
-                this.isAuthenticated = value;
-            },
             async getAccountInfo():Promise<IUser> {
-                // Este metodo no se puede ejecutar si el usuario no esta autenticado, por tanto currentUser nunca va a ser null
-                const currentUser = this.auth.currentUser;
+                // Este metodo no se puede ejecutar si el usuario no esta autenticado, por tanto this.user nunca va a ser null
+
                 let user:IUser = {};
 
-                if(currentUser != null) {
+                if(this.user != null) {
                     try {
                         // Recuperamos de la Promise, el docSnapshot
-                        const docSnapshot = await getDoc(doc(this.db, "users", currentUser.uid));
+                        console.log("Desde el getAccountInfo: con currentUser");
+                        const docSnapshot = await getDoc(doc(db, "users", this.user.uid));
                         if(docSnapshot.exists()) {
                             user = {
-                                uid: currentUser.uid,
-                                email: currentUser.email!,
+                                uid: this.user.uid,
+                                email: this.user.email!,
                                 name: docSnapshot.data().name,
                                 lastName: docSnapshot.data().lastName,
                                 username: docSnapshot.data().username
                             }
                             return user;
                         }else{
-                            alert("Desde el getAccountInfo: No existe ese usuario ");
+                            console.log("Desde el getAccountInfo: No existe ese usuario ");
                             return user;
                         }
                     } catch (error) {
-                        alert("Desde el getAccountInfo " + error);
+                        console.log("Desde el getAccountInfo " + error);
                         return user;
                     }
                 }else{
@@ -97,21 +97,20 @@ export const useAuthStore = defineStore(
                 }
             },
             async createPost(title:string, category:string, content:string):Promise<boolean> {
-                // Este metodo no se puede ejecutar si el usuario no esta autenticado, por tanto currentUser nunca va a ser null
-                const currentUser = this.auth.currentUser;
+                // Este metodo no se puede ejecutar si el usuario no esta autenticado, por tanto this.user nunca va a ser null
 
-                if(currentUser != null){
+                if(this.user != null){
                     try {
-                        const docSnapshot = await getDoc(doc(this.db, "users", currentUser.uid));
+                        const docSnapshot = await getDoc(doc(db, "users", this.user.uid));
 
                         if(docSnapshot.exists()) {
                             await setDoc(
-                                doc(collection(this.db, "posts")),
+                                doc(collection(db, "posts")),
                                 {
                                     title: title,
                                     category: category,
                                     content: content,
-                                    userUid: currentUser.uid,
+                                    userUid: this.user.uid,
                                     username: docSnapshot.data().username
                                 }
                             );
@@ -129,12 +128,12 @@ export const useAuthStore = defineStore(
                 }
             },
             async fetchAllPosts():Promise<QuerySnapshot> {
-                const querySnapshot = await getDocs(collection(this.db, "posts"));
+                const querySnapshot = await getDocs(collection(db, "posts"));
                 return querySnapshot;
             },
             async fetchMyPosts():Promise<QuerySnapshot> {
-                const currentUser = this.auth.currentUser;
-                const querySnapshot = await getDocs(query(collection(this.db, "posts"), where("userUid", "==", currentUser?.uid)));
+                const currentUser = auth.currentUser;
+                const querySnapshot = await getDocs(query(collection(db, "posts"), where("userUid", "==", currentUser?.uid)));
                 return querySnapshot;
             }
         }

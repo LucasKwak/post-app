@@ -10,23 +10,6 @@
 
 <script setup>
     import NavMenu from '@/components/NavMenu.vue';
-    import { useAuthStore } from './store/auth';
-    import { onAuthStateChanged } from "firebase/auth";
-
-    const store = useAuthStore();
-
-    // Establecemos un observer al auth del store comun a toda la app
-    onAuthStateChanged(store.auth, 
-        (user) => {
-            if(user) {
-                //alert("Esta autenticado: app.vue");
-                store.changeAuthState(true);
-            }else{
-                //alert("No esta autenticado: app.vue");
-                store.changeAuthState(false);
-            }
-        }
-    );
 </script>
 
 <style lang="scss">
